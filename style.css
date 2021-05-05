@@ -1,0 +1,164 @@
+@charset "UTF-8";
+
+/* CSS RESETS */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+:root {
+    --light-brown: rgb(247, 123, 61);
+    --gray: rgb(72, 72, 72);
+    --light-gray: rgb(200, 200, 200);
+}
+html {
+    box-sizing: border-box;
+}
+* {
+    box-sizing: inherit;
+}
+body {
+    font-family: "Noto serif" ,sans-serif;
+    font-size: 1.2rem;
+    background-color: var(--light-brown);
+    
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.calculator {
+    background-color: #FFF;
+    box-shadow: 5px 5px 5px var(--light-brown);
+    border-radius: 1rem;
+    padding: .5rem;
+    width: 16rem;
+    height: 22rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-template-areas: 
+            "exp    exp     exp     exp"
+            "result result  result  result"
+            "clear  .       .       divide"
+            "seven  eight   nine    times"
+            "four   five    six     minus"
+            "one    two     three   plus"
+            ".      zero     period  equals";
+}
+
+[data-value = "1"] {
+    grid-area: one;
+}
+[data-value = "2"] {
+    grid-area: two;
+}
+[data-value = "3"] {
+    grid-area: three;
+}
+[data-value = "4"] {
+    grid-area: four;
+}
+[data-value = "5"] {
+    grid-area: five;
+}
+[data-value = "6"] {
+    grid-area: six;
+}
+[data-value = "7"] {
+    grid-area: seven;
+}
+[data-value = "8"] {
+    grid-area: eight;
+}
+[data-value = "9"] {
+    grid-area: nine;
+}
+[data-value = "0"] {
+    grid-area: zero;
+}
+[data-value = "="] {
+    grid-area: equals;
+}
+[data-value = "+"] {
+    grid-area: plus;
+}
+[data-value = "-"] {
+    grid-area: minus;
+}
+[data-value = "*"] {
+    grid-area: times;
+}
+[data-value = "/"] {
+    grid-area: divide;
+}
+[data-value = "clear"] {
+    grid-area: clear;
+}
+[data-value = "."] {
+    grid-area: period;
+}
+
+.exp {
+    grid-area: exp;
+    text-align: right;
+    font-weight: 500;
+    padding: 1rem;
+}
+.result {
+    color: var(--gray);
+    border-bottom: .5px solid var(--light-gray);
+    font-weight: 500;
+    grid-area: result;
+    text-align: right;
+    padding: 1rem;
+}
+
+button {
+    margin: auto;
+    border: 0;
+    background-color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+button:focus {
+    outline: none;
+}
+.button-operator {
+    color: var(--light-brown);
+}
+
+.equals {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    color: #FFF;
+    background-color: var(--light-brown);
+}

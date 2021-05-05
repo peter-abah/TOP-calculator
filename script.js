@@ -1,12 +1,12 @@
 "use strict";
 
 function evaluate(expr) {
-    console.log(expr);
     if (expr.length !== 3) {
-        return;
+        return expr[0] ? expr[0] : null;
     }
     let operator = operators[expr[1]];
-    return operator(expr[0], expr[2]);
+    let result = operator(expr[0], expr[2]);
+    return (Math.round(result * 1e15) / 1e15)
 }
 
 function clear() {
@@ -16,7 +16,7 @@ function clear() {
 
 function equals() {
     if (currentNo) {
-        currentNo = parseInt(currentNo);
+        currentNo = parseFloat(currentNo);
         expression = expression.concat(currentNo);
     }
     let result = evaluate(expression);
@@ -24,10 +24,22 @@ function equals() {
     return result;
 }
 
+function del() {
+    if (currentNo) {
+        currentNo = currentNo.slice(0, -1);
+    } else {
+        expression.pop();
+    }
+}
+
 function updateNumber(input) {
     if (currentNo) {
+        if (currentNo.length > 15) return;
+        if (currentNo === "0" && input !== ".") return;
+        if (input === "." && currentNo.indexOf(input) !== -1) return;
         currentNo += input;
-    } else if (input.match(/[^0]/)) {
+    } else {
+        if (input === ".") return;
         if (expression.length === 1) {
             clear();
         }
@@ -37,7 +49,7 @@ function updateNumber(input) {
 
 function updateOperator(input) {
     if (currentNo) {
-        currentNo = parseInt(currentNo);
+        currentNo = parseFloat(currentNo);
         if (expression.length === 0) {
             expression = expression.concat(currentNo, input);
             currentNo = null;
@@ -51,11 +63,14 @@ function updateOperator(input) {
     }
 }
 
-function action(e) {
-    let input = this.getAttribute("data-value");
+function action(input) {
+    result = "";
 
     if (input === "clear") {
         clear();
+    }
+    if (input === "del") {
+        del();
     }
     else if (input === "=") {
         result = equals();
@@ -75,11 +90,11 @@ function updateDisplay() {
     let exp = "";
     exp += expression.join(" ");
     exp += ` ${currentNo? currentNo: ""}`;
-    document.querySelector(".input").textContent = exp;
+    document.querySelector(".exp").textContent = exp;
     document.querySelector(".result").textContent = result ? result : "";
 }
 
-const regexpNumber = /\d/;
+const regexpNumber = /[\d\.]/;
 const regexpOperator = /[\/\*\+-]/;
 
 let expression = [];
@@ -96,4 +111,19 @@ let operators = {
 }
 
 const buttons = document.querySelectorAll("button");
-buttons.forEach(button => button.addEventListener("click", action));
+buttons.forEach(button => button.addEventListener("click", e => {
+    let input = button.getAttribute("data-value");
+    action(input);
+}));
+
+window.addEventListener("keydown", e => {
+    let key = e.key;
+    switch(key) {
+        case "Enter":
+            key = "=";
+            break;
+        case "Backspace":
+            key = "del";
+    }
+    action(key);
+});
